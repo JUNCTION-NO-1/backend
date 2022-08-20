@@ -1,17 +1,22 @@
 package me.alxndr.junction.domain.dinosaur;
 
+import java.awt.print.Pageable;
 import java.time.LocalDate;
 import java.time.temporal.WeekFields;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.alxndr.junction.domain.dinosaur.DinosaurDto.DinosaurRequest;
 import me.alxndr.junction.domain.dinosaur.DinosaurDto.DinosaurResponse;
+import me.alxndr.junction.domain.dinosaur.DinosaurDto.RankingResponse;
 import me.alxndr.junction.domain.dinosaur.DinosaurDto.TimeUpRequest;
 import me.alxndr.junction.domain.dinosaur.DinosaurDto.TimeUpResponse;
 import me.alxndr.junction.domain.weeklySummary.WeeklySummary;
 import me.alxndr.junction.domain.weeklySummary.WeeklySummaryRepository;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -69,6 +74,24 @@ public class DinosaurService {
 
 		return TimeUpResponse.of(weeklySummary);
 	}
+
+	public List<RankingResponse> getRanking() {
+
+		final var weekOfMonth = getWeekOfMonth();
+
+		final var weeklySummaries = weeklySummaryRepository.getRanking(LocalDate.now(), weekOfMonth, PageRequest.of(0, 5));
+		int ranking = 1;
+
+
+		List<RankingResponse> response = new ArrayList<>();
+		for (WeeklySummary weeklySummary : weeklySummaries) {
+			response.add(RankingResponse.of(ranking, weeklySummary));
+			ranking++;
+		}
+
+			return response;
+	}
+
 
 	private WeeklySummary getWeeklySummary(final LocalDate now, final int weekOfMonth, final Dinosaur dinosaur) {
 		final var weeklySummary = weeklySummaryRepository.findByDinosaurAndYearMonthAndWeek(dinosaur, now, weekOfMonth);

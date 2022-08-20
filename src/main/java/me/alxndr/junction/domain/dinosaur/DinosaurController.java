@@ -1,13 +1,14 @@
 package me.alxndr.junction.domain.dinosaur;
 
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import me.alxndr.junction.domain.dinosaur.DinosaurDto.DinosaurRequest;
 import me.alxndr.junction.domain.dinosaur.DinosaurDto.TimeUpRequest;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
+@Api(tags = "공룡 API")
 @RequestMapping("/dinosaur")
 public class DinosaurController {
 
@@ -38,6 +40,13 @@ public class DinosaurController {
 		return ResponseEntity.ok(timeUpResponse);
 	}
 
+	// ranking
+	@ApiOperation(value = "랭킹")
+	@GetMapping("/ranking")
+	public ResponseEntity getRanking() {
 
+		final var ranking = dinosaurService.getRanking();
 
+		return ResponseEntity.ok(ranking);
+	}
 }

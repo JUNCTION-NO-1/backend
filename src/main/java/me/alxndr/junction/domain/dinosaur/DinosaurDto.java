@@ -72,5 +72,27 @@ public class DinosaurDto {
 		}
 	}
 
+	@Getter
+	@Builder
+	public static class RankingResponse {
+		private Integer ranking;
+
+		private String nickname;
+
+		private Long totalTime; // minute
+
+		private Integer level;
+
+		public static RankingResponse of(int ranking, WeeklySummary weeklySummary) {
+			return RankingResponse.builder()
+					.ranking(ranking)
+					.nickname(weeklySummary.getDinosaur().getNickName())
+					.totalTime(weeklySummary.getTotalTime())
+					.level(weeklySummary.getLevel())
+					.build();
+		}
+
+	}
+
 
 }
