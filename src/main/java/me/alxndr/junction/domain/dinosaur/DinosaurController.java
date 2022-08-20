@@ -29,11 +29,11 @@ public class DinosaurController {
 	public ResponseEntity getDinosaur(@RequestBody DinosaurRequest req, HttpServletRequest request) {
 
 		final var dinosaur = dinosaurService.getDinosaur(req);
-
-		final var headerNames = request.getHeaderNames();
-		while (headerNames.hasMoreElements()) {
-			log.error(request.getHeader(headerNames.nextElement()));
-		}
+//
+//		final var headerNames = request.getHeaderNames();
+//		while (headerNames.hasMoreElements()) {
+//			log.error(request.getHeader(headerNames.nextElement()));
+//		}
 
 		return ResponseEntity.ok(dinosaur);
 	}
