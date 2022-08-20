@@ -25,22 +25,17 @@ public class DinosaurController {
 	private final DinosaurService dinosaurService;
 
 	@ApiOperation(value = "공룡 정보 (저장된게 없다면 저장)")
-	@PostMapping
-	public ResponseEntity getDinosaur(@RequestBody DinosaurRequest req, HttpServletRequest request) {
+	@GetMapping
+	public ResponseEntity getDinosaur(DinosaurRequest req) {
 
 		final var dinosaur = dinosaurService.getDinosaur(req);
-//
-//		final var headerNames = request.getHeaderNames();
-//		while (headerNames.hasMoreElements()) {
-//			log.error(request.getHeader(headerNames.nextElement()));
-//		}
 
 		return ResponseEntity.ok(dinosaur);
 	}
 
 	@ApiOperation(value = "타이머 종료")
-	@PostMapping("/quit")
-	public ResponseEntity levelup(@RequestBody TimeUpRequest req) {
+	@GetMapping("/quit")
+	public ResponseEntity levelup(TimeUpRequest req) {
 
 		final var timeUpResponse = dinosaurService.timeUp(req);
 
