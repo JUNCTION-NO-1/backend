@@ -12,6 +12,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import me.alxndr.junction.domain.dinosaur.Dinosaur;
 
 @Entity
@@ -19,6 +20,7 @@ import me.alxndr.junction.domain.dinosaur.Dinosaur;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@Slf4j
 public class WeeklySummary {
 
 	@Id
@@ -48,19 +50,17 @@ public class WeeklySummary {
 				.build();
 	}
 
-
 	public void calculateTime(Long minute, int levelTime) {
 		this.totalTime += minute;
-		calculateLevel(levelTime);
-	}
 
-	private void calculateLevel(int levelTime) {
-		final long i = this.totalTime / levelTime;
+		final int l = (int) (this.totalTime / levelTime);
+
+		log.error("@@@@ {}", l);
+		final Integer l1 = l - level;
 
 		if (this.level < 7) {
-			this.level += (int) i;
+			this.level += l1;
 		}
-
 	}
 
 }
