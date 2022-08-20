@@ -2,17 +2,16 @@ package me.alxndr.junction.domain.dinosaur;
 
 import java.util.Objects;
 import java.util.UUID;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.ToString;
 import me.alxndr.junction.domain.weeklySummary.WeeklySummary;
-import org.springframework.context.annotation.Bean;
 
 public class DinosaurDto {
 
 	@Getter
 	@Builder
+	@ToString
 	public static class DinosaurRequest {
 		private String id;
 

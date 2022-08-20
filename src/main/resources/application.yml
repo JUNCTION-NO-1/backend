@@ -23,6 +23,6 @@ spring:
       path: /h2-console
 
 timer:
-  level-time: 30 # second
+  level-time: 1 # minute
 
 

@@ -27,7 +27,7 @@ public class DinosaurController {
 	@ApiOperation(value = "공룡 정보 (저장된게 없다면 저장)")
 	@GetMapping
 	public ResponseEntity getDinosaur(DinosaurRequest req) {
-
+		log.error(req.toString());
 		final var dinosaur = dinosaurService.getDinosaur(req);
 
 		return ResponseEntity.ok(dinosaur);
