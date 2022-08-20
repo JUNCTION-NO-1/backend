@@ -18,4 +18,7 @@ public interface WeeklySummaryRepository extends JpaRepository<WeeklySummary, Lo
 	@Query(value = "select ws from WeeklySummary ws inner join fetch ws.dinosaur where ws.yearMonth = :now and ws.week = :week order by ws.totalTime desc")
 	List<WeeklySummary> getRanking(@Param(value = "now") LocalDate now, @Param(value = "week") int weekOfMonth, final PageRequest of);
 
+	@Query(value = "select count(ws) from WeeklySummary ws where ws.totalTime >= (select ws2.totalTime from WeeklySummary ws2 where ws2.yearMonth = :now and ws2.week = :week and ws2.dinosaur.id = :id)")
+	Long getMyRanking(@Param(value = "id") String id, @Param(value = "now") LocalDate now, @Param(value = "week") int weekOfMonth);
+
 }

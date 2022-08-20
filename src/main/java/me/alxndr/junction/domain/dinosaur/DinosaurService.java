@@ -1,6 +1,5 @@
 package me.alxndr.junction.domain.dinosaur;
 
-import java.awt.print.Pageable;
 import java.time.LocalDate;
 import java.time.temporal.WeekFields;
 import java.util.ArrayList;
@@ -16,6 +15,7 @@ import me.alxndr.junction.domain.dinosaur.DinosaurDto.TimeUpRequest;
 import me.alxndr.junction.domain.dinosaur.DinosaurDto.TimeUpResponse;
 import me.alxndr.junction.domain.weeklySummary.WeeklySummary;
 import me.alxndr.junction.domain.weeklySummary.WeeklySummaryRepository;
+import net.bytebuddy.asm.Advice.Local;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -75,19 +75,35 @@ public class DinosaurService {
 		return TimeUpResponse.of(weeklySummary);
 	}
 
-	public List<RankingResponse> getRanking() {
+	public List<RankingResponse> getRanking(final DinosaurRequest req) {
 
 		final var weekOfMonth = getWeekOfMonth();
 
-		final var weeklySummaries = weeklySummaryRepository.getRanking(LocalDate.now(), weekOfMonth, PageRequest.of(0, 5));
+		final var now = LocalDate.now();
+		final var weeklySummaries = weeklySummaryRepository.getRanking(now, weekOfMonth, PageRequest.of(0, 5));
 		int ranking = 1;
 
+		boolean isIncludeMe = false;
 
 		List<RankingResponse> response = new ArrayList<>();
 		for (WeeklySummary weeklySummary : weeklySummaries) {
+			// 내가 순위에 포함되어 있는지 체크
+			if (weeklySummary.getDinosaur().getId().equals(req.getId())) {
+				isIncludeMe = true;
+			}
+
 			response.add(RankingResponse.of(ranking, weeklySummary));
 			ranking++;
 		}
+
+		if (!isIncludeMe) {
+			// 내가 포함되어 있지않다면 내 순위를 구한다.\
+			final var myRanking = weeklySummaryRepository.getMyRanking(req.getId(), now, weekOfMonth);
+			final var dinosaur = getDinosaur(req.getId());
+			final var weeklySummary = getWeeklySummary(now, weekOfMonth, dinosaur.get());
+			response.add(RankingResponse.of(myRanking.intValue(), weeklySummary));
+		}
+
 
 			return response;
 	}

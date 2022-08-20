@@ -55,13 +55,12 @@ public class WeeklySummary {
 	}
 
 	private void calculateLevel(int levelTime) {
-		final var i = this.totalTime % levelTime;
+		final long i = this.totalTime / levelTime;
 
-		if (0 >= i) {
-			if (this.level < 7) {
-				this.level += 1;
-			}
+		if (this.level < 7) {
+			this.level += (int) i;
 		}
+
 	}
 
 }

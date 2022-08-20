@@ -43,9 +43,9 @@ public class DinosaurController {
 	// ranking
 	@ApiOperation(value = "랭킹")
 	@GetMapping("/ranking")
-	public ResponseEntity getRanking() {
+	public ResponseEntity getRanking(DinosaurRequest req) {
 
-		final var ranking = dinosaurService.getRanking();
+		final var ranking = dinosaurService.getRanking(req);
 
 		return ResponseEntity.ok(ranking);
 	}
