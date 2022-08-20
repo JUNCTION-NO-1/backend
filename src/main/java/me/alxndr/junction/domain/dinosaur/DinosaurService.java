@@ -15,7 +15,6 @@ import me.alxndr.junction.domain.dinosaur.DinosaurDto.TimeUpRequest;
 import me.alxndr.junction.domain.dinosaur.DinosaurDto.TimeUpResponse;
 import me.alxndr.junction.domain.weeklySummary.WeeklySummary;
 import me.alxndr.junction.domain.weeklySummary.WeeklySummaryRepository;
-import net.bytebuddy.asm.Advice.Local;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
