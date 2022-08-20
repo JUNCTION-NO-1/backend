@@ -5,6 +5,7 @@ import java.time.temporal.WeekFields;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -94,11 +95,11 @@ public class DinosaurService {
 			response.add(RankingResponse.of(ranking, weeklySummary));
 			ranking++;
 		}
+		final var dinosaur = getDinosaur(req.getId());
 
-		if (!isIncludeMe) {
+		if (!isIncludeMe && dinosaur.isPresent()) {
 			// 내가 포함되어 있지않다면 내 순위를 구한다.\
 			final var myRanking = weeklySummaryRepository.getMyRanking(req.getId(), now, weekOfMonth);
-			final var dinosaur = getDinosaur(req.getId());
 			final var weeklySummary = getWeeklySummary(now, weekOfMonth, dinosaur.get());
 			response.add(RankingResponse.of(myRanking.intValue(), weeklySummary));
 		}
