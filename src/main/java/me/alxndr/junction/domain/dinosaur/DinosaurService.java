@@ -44,7 +44,11 @@ public class DinosaurService {
 		if (optionalDinosaur.isPresent()) {
 			final var dinosaur = optionalDinosaur.get();
 
-			final WeeklySummary weeklySummary = getWeeklySummary(now, weekOfMonth, dinosaur);
+			WeeklySummary weeklySummary = getWeeklySummary(now, weekOfMonth, dinosaur);
+			if (Objects.isNull(weeklySummary)) {
+				weeklySummary = WeeklySummary.create(dinosaur, weekOfMonth);
+				weeklySummaryRepository.save(weeklySummary);
+			}
 
 			return DinosaurResponse.of(dinosaur, weeklySummary);
 

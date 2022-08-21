@@ -25,4 +25,11 @@ spring:
 timer:
   level-time: 1 # minute
 
+logging:
+  level:
+    org:
+      hibernate:
+        SQL: debug
+
+
 
