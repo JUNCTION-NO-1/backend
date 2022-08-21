@@ -61,6 +61,10 @@ public class WeeklySummary {
 		if (this.level < 7) {
 			this.level += l1;
 		}
+
+		if (this.level > 7) {
+			this.level = 7;
+		}
 	}
 
 }
